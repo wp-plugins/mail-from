@@ -3,7 +3,7 @@
 Contributors: hami
 Tags: email, mail, from, system, admin, wordpress
 Requires at least: 2.1
-Tested up to: 2.2.3
+Tested up to: 2.3
 Stable tag: 0.2
 
 A WordPress plugin that allows you to change the default wordpress@yourdomain.tld email address that WordPress sends it's email from, and the name of the sender that the email is from.
