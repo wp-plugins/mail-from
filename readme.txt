@@ -6,11 +6,11 @@ Requires at least: 2.1
 Tested up to: 2.2.3
 Stable tag: 0.1
 
-A WordPress plugin that allows you to change the default wordpress@yourdomain.tld email address that WordPress sends it's email from.
+A WordPress plugin that allows you to change the default wordpress@yourdomain.tld email address that WordPress sends it's email from, and the name of the sender that the email is from.
 
 == Description ==
 
-*Mail From* is WordPress plugin that that allows you to change the default wordpress@yourdomain.tld email address that WordPress sends it's email from. It's as simple as that.
+*Mail From* is WordPress plugin that that allows you to change the default wordpress@yourdomain.tld email address that WordPress sends it's email from, and the name of the sender that the email is from. It's as simple as that.
 
 == Installation ==
 
@@ -24,19 +24,24 @@ Once you have *Mail From* installed and activated you can change it's settings i
 
 == Changes ==
 
-Initial release.
+**0.2**
+*   Added the ability to change the sender's name the mail is coming from.
+*   The plugin will now remove invalid characters from the user name and domain name and convert to lower case when the settings are updated.
+
+**0.1**
+*   Initial release.
 
 == Settings ==
 
-The settings for *Mail From* are very simple. You specify the *username* part of the email address and the *domain* part of the email address, e.g:
+The settings for *Mail From* are very simple. You can specify the *sender name*, the *user name* part of the email address and the *domain* part of the email address, e.g:
 
 	`username@yourdomain.tld`
 
-By default the settings are set to *noreply@yourdomain.tld*, where *yourdomain.tld* is the domain or subdomain that your WordPress is installed at.
+The default settings are set to the name of your site for the sender name, and the default email address is *noreply@yourdomain.tld*, where *yourdomain.tld* is the domain or subdomain that your WordPress is installed at.
 
 == Screenshots ==
 
-1. Options to set you *Mail From* email address
+1. Options for *Mail From*
 
 == Known Issues ==
 
