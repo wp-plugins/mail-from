@@ -25,11 +25,11 @@ Once you have *Mail From* installed and activated you can change it's settings i
 == Changes ==
 
 **0.2**
-*   Added the ability to change the sender's name the mail is coming from.
-*   The plugin will now remove invalid characters from the user name and domain name and convert to lower case when the settings are updated.
+* Added the ability to change the sender's name the mail is coming from.
+* The plugin will now remove invalid characters from the user name and domain name and convert to lower case when the settings are updated.
 
 **0.1**
-*   Initial release.
+* Initial release.
 
 == Settings ==
 
