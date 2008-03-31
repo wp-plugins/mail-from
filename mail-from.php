@@ -4,7 +4,7 @@ Plugin Name: Mail From
 Plugin URI: http://labs.saruken.com
 Description: Change the default address that WordPress sends it's email from.
 Author: Andrew Hamilton
-Version: 0.2
+Version: 0.3
 Author URI: http://andrewhamilton.net/
 Licensed under the The GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 */
@@ -98,25 +98,30 @@ global $wpdb;
 	<div class="wrap">
 	<h2>Mail From Options</h2>
 	<form method="post" action="<?php echo $_SERVER['PHP_SELF'] . '?page=' . basename(__FILE__); ?>&updated=true">
-	<fieldset class="options">
+	<fieldset class="options" style="border: none">
 	<p>
 	<b>Mail From</b> allows you to change the default email address <em>(wordpress@<?php echo $domain;?>)</em> that WordPress sends it's mail from, and
 	the name of the sender that the email is from <em>(which is normally WordPress)</em>.</p>
-	<table width="100%" cellspacing="2" cellpadding="5" class="editform">
+	<table width="100%" width="100%" class="form-table">
 		<tr valign="center"> 
 			<th width="150px" scope="row">Sender Name </th> 
-			<td width="15px"><input type="text" id="sendername_inp" name="sendername" value="<?php echo $optionarray_def['sendername']; ?>" size="25" /></td>
+			<td width="45px"><input type="text" id="sendername_inp" name="sendername" value="<?php echo $optionarray_def['sendername']; ?>" size="25" /></td>
 			<td><span style="color: #555; font-size: .85em;">The sender name that the email is from</span></td> 
 		</tr>
 		<tr valign="center"> 
 			<th width="150px" scope="row">User Name </th> 
-			<td width="15px"><input type="text" id="username_inp" name="username" value="<?php echo $optionarray_def['username']; ?>" size="25" /></td>
+			<td width="45px"><input type="text" id="username_inp" name="username" value="<?php echo $optionarray_def['username']; ?>" size="25" /></td>
 			<td><span style="color: #555; font-size: .85em;">Username part of the email address e.g. <b>username</b>@yourdomain.tld</span></td> 
 		</tr>
 		<tr valign="center"> 
 			<th width="150px" scope="row">Domain Name </th> 
-			<td width="15px"><input type="text" id="domainname_inp" name="domainname" value="<?php echo $optionarray_def['domainname']; ?>" size="25" /></td>
+			<td width="45px"><input type="text" id="domainname_inp" name="domainname" value="<?php echo $optionarray_def['domainname']; ?>" size="25" /></td>
 			<td><span style="color: #555; font-size: .85em;">Domain name part of the email address e.g. username@<b>yourdomain.tld</b></span></td> 
+		</tr>
+		<tr valign="center"> 
+			<th width="150px" scope="row">eMail Address </th> 
+			<td width="45px"><b><?php echo $optionarray_def['username']; ?>@<?php echo $optionarray_def['domainname']; ?></b></td>
+			<td><span style="color: #555; font-size: .85em;">Current address WordPress is sending mail from</span></td> 
 		</tr>
 	</table>
 	<p style="color: #555; font-size: .85em;">
