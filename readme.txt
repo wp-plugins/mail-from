@@ -4,7 +4,7 @@ Contributors: hami
 Tags: email, mail, from, system, admin, wordpress
 Requires at least: 2.1
 Tested up to: 2.5
-Stable tag: 0.3
+Stable tag: 0.3.1
 
 A WordPress plugin that allows you to change the default wordpress@yourdomain.tld email address that WordPress sends it's email from, and the name of the sender that the email is from.
 
@@ -24,16 +24,19 @@ Once you have *Mail From* installed and activated you can change it's settings i
 
 == Changes ==
 
+**0.3.1**
+*   *Actually* added the display of the final email address WordPress is using
+
 **0.3**
-* Added the a display of the final email address WordPress is using
-* Tweaked Settings Page to suit WordPress 2.5
+*   Added the display of the final email address WordPress is using
+*   Tweaked Settings Page to suit WordPress 2.5
 
 **0.2**
-* Added the ability to change the sender's name the mail is coming from.
-* The plugin will now remove invalid characters from the user name and domain name and convert to lower case when the settings are updated.
+*   Added the ability to change the sender's name the mail is coming from.
+*   The plugin will now remove invalid characters from the user name and domain name and convert to lower case when the settings are updated.
 
 **0.1**
-* Initial release.
+*   Initial release.
 
 == Settings ==
 

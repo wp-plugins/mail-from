@@ -4,7 +4,7 @@ Plugin Name: Mail From
 Plugin URI: http://labs.saruken.com
 Description: Change the default address that WordPress sends it's email from.
 Author: Andrew Hamilton
-Version: 0.3
+Version: 0.3.1
 Author URI: http://andrewhamilton.net/
 Licensed under the The GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 */
