@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Mail From 
-Plugin URI: http://labs.saruken.com
+Plugin URI: http://code.andrewhamilton.net/wordpress/plugins/mail-from/
 Description: Change the default address that WordPress sends it's email from.
 Author: Andrew Hamilton
 Version: 0.3.1
