@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Mail From 
-Plugin URI: http://code.andrewhamilton.net/wordpress/plugins/mail-from/
+Plugin URI: http://labs.saruken.com
 Description: Change the default address that WordPress sends it's email from.
 Author: Andrew Hamilton
-Version: 0.3.1
+Version: 1.0
 Author URI: http://andrewhamilton.net/
 Licensed under the The GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 */
@@ -13,13 +13,61 @@ Licensed under the The GNU General Public License 2.0 (GPL) http://www.gnu.org/l
 //		SETUP FUNCTIONS
 //----------------------------------------------------------------------------
 
-$mail_from_opt = get_option('mail_from_options');
+register_activation_hook(__FILE__,'mail_from_setup_options');
 
-function mail_from_add_options_page() {
-    if (function_exists('add_options_page')) {
-						add_options_page('Mail From', 'Mail From', 8, basename(__FILE__), 'mail_from_options_page');
+$mail_from_opt = get_option('mail_from_options');
+$domain = preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
+$sitename = get_bloginfo('name');
+
+//----------------------------------------------------------------------------
+//	Setup Default Settings
+//----------------------------------------------------------------------------
+
+function mail_from_setup_options()
+{
+	global $mail_from_opt, $domain, $sitename;
+	
+	$mail_from_version = get_option('mail_from_version'); //Mail From Version Number
+	$mail_from_this_version = '1.0';
+	
+	// Check the version of Members Only
+	if (empty($mail_from_version))
+	{
+		add_option('mail_from_version', $mail_from_this_version);
+	} 
+	elseif ($mail_from_version != $mail_from_this_version)
+	{
+		update_option('mail_from_version', $mail_from_this_version);
+	}
+	
+	// Setup Default Options Array
+	$optionarray_def = array(
+		'username' => 'noreply',
+		'domainname' => $domain,
+		'sendername' => $sitename
+		);
+		
+		
+	if (empty($mail_from_opt)){ //If there aren't already options for Mail From
+		add_option('mail_from_options', $optionarray_def, 'Mail From Wordpress Plugin Options');
+	}	
+}
+
+//Detect WordPress version to add compatibility with 2.3 or higher
+$wpversion_full = get_bloginfo('version');
+$wpversion = preg_replace('/([0-9].[0-9])(.*)/', '$1', $wpversion_full); //Boil down version number to X.X
+
+//--------------------------------------------------------------------------
+//	Add Admin Page
+//--------------------------------------------------------------------------
+
+function mail_from_add_options_page() 
+{
+    if (function_exists('add_options_page')) 
+    {
+		add_options_page('Mail From', 'Mail From', 8, basename(__FILE__), 'mail_from_options_page');
     }
-} 
+}
 
 //----------------------------------------------------------------------------
 //		MAIN FUNCTIONS
@@ -43,7 +91,7 @@ function mail_from_name()
 
 global $mail_from_opt;
 
-	if (empty($mail_from_opt['sendername'])) : $sendername = "WordPress"; else : $sendername = $mail_from_opt['sendername']; endif;
+	if (empty($mail_from_opt['sendername'])) : $sendername = "WordPress"; else : $sendername = stripslashes($mail_from_opt['sendername']); endif;
 	
 	return $sendername;
 }
@@ -55,25 +103,17 @@ global $mail_from_opt;
 function mail_from_options_page()
 {
 
-global $wpdb;
+global $wpdb, $wpversion, $domain, $sitename;
 
-	$domain = preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
-	$sitename = get_bloginfo('name');
-
-	// Setup Default Options Array
-		$optionarray_def = array(
-			'username' => 'noreply',
-			'domainname' => $domain,
-			'sendername' => $sitename
-		);
-		add_option('mail_from_options', $optionarray_def, 'Mail From Wordpress Plugin Options');
-
-		if (isset($_POST['submit']) ) {
-		
-	// Remove any illegal characters and convert to lowercase both the user name and domain name
+	if (isset($_POST['submit']) ) 
+	{	
+		// Remove any illegal characters and convert to lowercase both the user name and domain name
 		$domain_input_errors = array('http://', 'https://', 'ftp://', 'www.');
-		$illegal_chars_username = array('(', ')', '<', '>', ',', ';', ':', '\\', '"', '[', ']', '@', ' ');
-			
+		$illegal_chars_username = array('(', ')', '<', '>', ',', ';', ':', '\\', '"', '[', ']', '@', "'", ' ');
+		
+		$sendername = $_POST['sendername'];
+		//$sendername = str_replace ($illegal_chars_username, "", $sendername);
+		
 		$username = strtolower($_POST['username']);
 		$username = str_replace ($illegal_chars_username, "", $username);
 		
@@ -81,18 +121,18 @@ global $wpdb;
 		$domainname = str_replace ($domain_input_errors, "", $domainname);
 		$domainname = preg_replace('/[^0-9a-z\-\.]/i','',$domainname);
 		
-	// Options Array Update
+		// Options Array Update
 		$optionarray_update = array (
 			'username' => $username,
 			'domainname' => $domainname,
-			'sendername' => $_POST['sendername']
+			'sendername' => $sendername
 		);
 		
 		update_option('mail_from_options', $optionarray_update);
-		}
-		
+	}
+	
 	// Get Options
-		$optionarray_def = get_option('mail_from_options');
+	$optionarray_def = get_option('mail_from_options');
 
 ?>
 	<div class="wrap">
@@ -102,10 +142,10 @@ global $wpdb;
 	<p>
 	<b>Mail From</b> allows you to change the default email address <em>(wordpress@<?php echo $domain;?>)</em> that WordPress sends it's mail from, and
 	the name of the sender that the email is from <em>(which is normally WordPress)</em>.</p>
-	<table width="100%" width="100%" class="form-table">
+	<table width="100%" <?php $wpversion >= 2.5 ? _e('class="form-table"') : _e('cellspacing="2" cellpadding="5" class="editform"'); ?> >
 		<tr valign="center"> 
 			<th width="150px" scope="row">Sender Name </th> 
-			<td width="45px"><input type="text" id="sendername_inp" name="sendername" value="<?php echo $optionarray_def['sendername']; ?>" size="25" /></td>
+			<td width="45px"><input type="text" id="sendername_inp" name="sendername" value="<?php echo stripslashes($optionarray_def['sendername']); ?>" size="25" /></td>
 			<td><span style="color: #555; font-size: .85em;">The sender name that the email is from</span></td> 
 		</tr>
 		<tr valign="center"> 
@@ -134,9 +174,7 @@ global $wpdb;
 		<input type="submit" name="submit" value="<?php _e('Update Options') ?> &raquo;" />
 	</div>
 	</form>
-	<p>
-
-	
+	<p>	
 <?php
 }
 
