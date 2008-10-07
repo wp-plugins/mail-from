@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Mail From 
-Plugin URI: http://labs.saruken.com
+Plugin URI: http://code.andrewhamilton.net/wordpress/plugins/mail-from/
 Description: Change the default address that WordPress sends it's email from.
 Author: Andrew Hamilton
-Version: 1.0
+Version: 1.0.1
 Author URI: http://andrewhamilton.net/
 Licensed under the The GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
 */
@@ -13,11 +13,9 @@ Licensed under the The GNU General Public License 2.0 (GPL) http://www.gnu.org/l
 //		SETUP FUNCTIONS
 //----------------------------------------------------------------------------
 
-register_activation_hook(__FILE__,'mail_from_setup_options');
-
 $mail_from_opt = get_option('mail_from_options');
-$domain = preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
-$sitename = get_bloginfo('name');
+
+register_activation_hook(__FILE__,'mail_from_setup_options');
 
 //----------------------------------------------------------------------------
 //	Setup Default Settings
@@ -25,10 +23,13 @@ $sitename = get_bloginfo('name');
 
 function mail_from_setup_options()
 {
-	global $mail_from_opt, $domain, $sitename;
+	global $mail_from_opt;
 	
 	$mail_from_version = get_option('mail_from_version'); //Mail From Version Number
-	$mail_from_this_version = '1.0';
+	$mail_from_this_version = '1.0.1';
+	
+	$domain = preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
+	$sitename = get_bloginfo('name');
 	
 	// Check the version of Members Only
 	if (empty($mail_from_version))
@@ -103,7 +104,9 @@ global $mail_from_opt;
 function mail_from_options_page()
 {
 
-global $wpdb, $wpversion, $domain, $sitename;
+global $wpdb, $wpversion;
+
+	$domain = preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
 
 	if (isset($_POST['submit']) ) 
 	{	
@@ -151,12 +154,12 @@ global $wpdb, $wpversion, $domain, $sitename;
 		<tr valign="center"> 
 			<th width="150px" scope="row">User Name </th> 
 			<td width="45px"><input type="text" id="username_inp" name="username" value="<?php echo $optionarray_def['username']; ?>" size="25" /></td>
-			<td><span style="color: #555; font-size: .85em;">Username part of the email address e.g. <b>username</b>@yourdomain.tld</span></td> 
+			<td><span style="color: #555; font-size: .85em;">Username part of the email address e.g. <b>username</b>@example.com</span></td> 
 		</tr>
 		<tr valign="center"> 
 			<th width="150px" scope="row">Domain Name </th> 
 			<td width="45px"><input type="text" id="domainname_inp" name="domainname" value="<?php echo $optionarray_def['domainname']; ?>" size="25" /></td>
-			<td><span style="color: #555; font-size: .85em;">Domain name part of the email address e.g. username@<b>yourdomain.tld</b></span></td> 
+			<td><span style="color: #555; font-size: .85em;">Domain name part of the email address e.g. username@<b>example.com</b></span></td> 
 		</tr>
 		<tr valign="center"> 
 			<th width="150px" scope="row">eMail Address </th> 
