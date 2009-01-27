@@ -4,7 +4,7 @@ Contributors: hami
 Tags: email, mail, from, system, admin, wordpress
 Donate link: http://code.andrewhamilton.net/donate/
 Requires at least: 2.0
-Tested up to: 2.5
+Tested up to: 2.7
 Stable tag: 1.0.1
 
 A WordPress plugin that allows you to change the default wordpress@example.com email address that WordPress sends it's email from, and the name of the sender that the email is from.
